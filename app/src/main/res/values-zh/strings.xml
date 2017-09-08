@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">假装分享Xposed版</string>
     <string name="not_enabled">请在xposed安装器中启用这个辣鸡模块</string>
-    <string name="is_enabled">这么辣鸡的模块不需要设置</string>
+    <string name="is_enabled">这么辣鸡的模块不需要设置\n如需卸载模块，请在xposed安装器里长按或去系统设置-应用管理</string>
     <string name="disable_error">这个模块辣鸡到连自己的图标都隐藏不了</string>
     <string name="yes">是</string>
     <string name="no">确定</string>
