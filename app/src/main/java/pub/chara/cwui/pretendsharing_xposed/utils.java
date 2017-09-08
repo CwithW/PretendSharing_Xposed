@@ -66,6 +66,28 @@ public class utils {
         intent.putExtra(Constants.fromIntent,fromIntent); //将fromIntent塞进去
         intent.putExtra(Constants.fromParam1,param1);
         intent.putExtra(Constants.fromParam2,param2);
+        intent.putExtra(Constants.whichForm,Constants.threeParams);
+        return intent;
+    }
+    //同上，但是少一个参数
+    public static final Intent generateFakeIntent( Intent fromIntent,Bundle param1){
+        Intent intent=new Intent();
+        ComponentName cn=new ComponentName("pub.chara.cwui.pretendsharing_xposed",
+                "pub.chara.cwui.pretendsharing_xposed.FakeActivity");
+        intent.setComponent(cn);
+        intent.putExtra(Constants.fromIntent,fromIntent); //将fromIntent塞进去
+        intent.putExtra(Constants.fromParam1,param1);
+        intent.putExtra(Constants.whichForm,Constants.twoParams);
+        return intent;
+    }
+    //context的startActivity
+    public static final Intent generateFakeIntent( Intent fromIntent){
+        Intent intent=new Intent();
+        ComponentName cn=new ComponentName("pub.chara.cwui.pretendsharing_xposed",
+                "pub.chara.cwui.pretendsharing_xposed.FakeActivity");
+        intent.setComponent(cn);
+        intent.putExtra(Constants.fromIntent,fromIntent); //将fromIntent塞进去
+        intent.putExtra(Constants.whichForm,Constants.oneParam);
         return intent;
     }
 
@@ -115,8 +137,8 @@ public class utils {
         for (int i = 0; ; i++) {
             b.append(String.valueOf(a[i]));
             if (i == iMax)
-                return b.append(']').toString();
-            b.append(", \n");
+                return b.append("\n]").toString();
+            b.append("\n");
         }
     }
     public static void logIntent(Intent i){

@@ -12,6 +12,11 @@ public class Constants {
     public static final String fromParam1 = "dfzxcasdfasdawesd"; //startActivityForResult的第二个参数：int
     public static final String fromParam2 = "xcvjlsdkfjaweiofj"; //startActivityForResult的第三个参数:Bundle
 
+    public static final String whichForm = "dfzxouwiojsdlfajf"; //新版微信使用startActivity而非startActivityForResult
+    public static final int twoParams = 1; //Intent bundle
+    public static final int threeParams = 2; // Intent int Bundle
+    public static final int oneParam = 3; //只有一个Intent参数的startActivity
+
     @Deprecated
     public static final String Title = "假装分享";
     @Deprecated

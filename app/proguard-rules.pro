@@ -30,3 +30,7 @@
 -keepclassmembers class pub.chara.cwui.pretendsharing_xposed.MainActivity {
     boolean isXposedEnabled();
 }
+#检测函数
+-keepclassmembers class pub.chara.cwui.pretendsharing_xposed.sub.Detector {
+    String whichShare();
+}

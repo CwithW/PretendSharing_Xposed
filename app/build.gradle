@@ -5,12 +5,11 @@ android {
     buildToolsVersion "26.0.1"
     defaultConfig {
         applicationId "pub.chara.cwui.pretendsharing_xposed"
-        //startActivityForResult(Intent int Bundle)需要sdl>=16
+        //threeParams(Intent int Bundle)需要sdl>=16
         minSdkVersion 16
         targetSdkVersion 26
-//      通过这种方法可以在gradle里配置负数版本
-        versionCode 1-129
-        versionName "-128 alpha"
+        versionCode 1
+        versionName "-127 alpha"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

@@ -16,6 +16,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".FakeActivity" android:allowEmbedded="false" android:theme="@android:style/Theme.Translucent.NoTitleBar" android:excludeFromRecents="true" android:exported="true"/>
+        <activity android:name=".MessageExtractActivity" android:label="@string/name_message_extract" android:theme="@android:style/Theme.DeviceDefault"/>
 
         <meta-data
             android:name="xposedmodule"

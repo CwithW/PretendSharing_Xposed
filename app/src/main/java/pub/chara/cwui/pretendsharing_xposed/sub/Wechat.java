@@ -38,7 +38,11 @@ public class Wechat {
         callBackIntent.putExtra("_mmessage_checksum",wechatSign); //checksum
         callBackIntent.putExtra("_wxapi_command_type",realIntent.getIntExtra("_wxapi_command_type",0)); //命令类型。还给你
         callBackIntent.putExtra("_wxapi_baseresp_errcode",0); //错误码/是否成功。0：成功
-        callBackIntent.putExtra("_wxapi_baseresp_transaction","1#sep#4#sep#4884235#sep#1504783117034"); //未知
+        String tempStr;
+        if((tempStr = realIntent.getStringExtra("_wxapi_baseresp_transaction")) != null) //有的请求没有，很奇怪，可能是旧版分享sdk
+            callBackIntent.putExtra("_wxapi_baseresp_transaction",tempStr); //未知
+        else
+            callBackIntent.putExtra("_wxapi_baseresp_transaction","1#sep#4#sep#4884235#sep#1504783117034");
         callBackIntent.setFlags(272629760);
         try{
             callBackIntent.setComponent(callBackName);

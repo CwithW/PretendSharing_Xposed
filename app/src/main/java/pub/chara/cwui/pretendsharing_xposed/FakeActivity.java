@@ -6,11 +6,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.Window;
-import android.widget.Toast;
 
+import pub.chara.cwui.pretendsharing_xposed.sub.Detector;
 import pub.chara.cwui.pretendsharing_xposed.sub.QQ;
 import pub.chara.cwui.pretendsharing_xposed.sub.Wechat;
+import pub.chara.cwui.pretendsharing_xposed.sub.Weibo;
 
 /**
  * Created by user on 2017/9/5.
@@ -29,8 +29,50 @@ public class FakeActivity extends Activity {
         realIntent = fakeIntent.getParcelableExtra(Constants.fromIntent);
         if (realIntent == null) //如果无法获取到包装Intent，则这个不是假装分享请求
             this.finish(); //再见
-        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-        alertDialog.setCancelable(false);
+        showMsgBox(); //显示弹窗
+    }
+
+    //final函数会被自动优化，
+    //这里把函数提出来只是方便观看
+    private final void doPretendShare(){ //确定：执行假装分享
+        doPretendShare(realIntent,this);
+    }
+    public final static void doPretendShare(Intent realIntent,Activity thisActivity){ //消息提取界面外部调用
+        String which;
+        if((which = Detector.whichShare(realIntent)) != null){ //虽然这里不可能为空了，还是做一下非空检测
+            switch (which){
+                case "mqqapi":
+                case "mqq":
+                    QQ.invoke(realIntent,thisActivity);
+                    break;
+                case "weixin":
+                    Wechat.invoke(realIntent,thisActivity);
+                    break;
+                /*case "weibo":
+                    Weibo.invoke(realIntent,thisActivity);
+                    break;*/
+            }
+        }
+    }
+
+    private final void doRealShare(){ //取消：真的分享
+        switch (realIntent.getIntExtra(Constants.whichForm,Constants.oneParam)) { //新版微信
+            case Constants.threeParams: //Intent int Bundle
+                startActivityForResult(realIntent,fakeIntent.getIntExtra(Constants.fromParam1,1),fakeIntent.getBundleExtra(Constants.fromParam2));
+                break;
+            case Constants.twoParams: //Intent int
+                startActivity(realIntent,fakeIntent.getBundleExtra(Constants.fromParam1));
+                break;
+            case Constants.oneParam: //只有一个Intent
+                startActivity(realIntent);
+                break;
+        }
+
+    }
+
+    private final void showMsgBox(){
+        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(this,android.R.style.Theme_DeviceDefault_Dialog); //设置主题
+        alertDialog.setCancelable(true); //屠龙宝刀点击取消
         alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
             public void onCancel(DialogInterface dialogInterface) {
@@ -61,32 +103,15 @@ public class FakeActivity extends Activity {
                 FakeActivity.this.finish();
             }
         });
-        alertDialog.create().show();
-    }
-
-    //final函数会被自动优化，
-    //这里把函数提出来只是方便观看
-    private final void doPretendShare(){ //确定：执行假装分享
-        String realScheme = realIntent.getScheme(); // head://这个头的head
-        if (realScheme != null) {
-            switch (realScheme) {
-                case "mqqapi": //qq
-                case "mqq": //旧qq
-                    QQ.invoke(realIntent, this);
-                    break;
-                case "weixin": //旧微信
-                    Wechat.invoke(realIntent, this);
-                    break;
+        alertDialog.setNeutralButton(R.string.button_message_extract, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Intent temp = new Intent(FakeActivity.this,MessageExtractActivity.class);
+                temp.putExtra(Constants.fromIntent,realIntent);
+                startActivity(temp);
+                //FakeActivity.this.finish();
             }
-        }
-        if(realIntent.getComponent() != null
-                && "com.tencent.mm".equals(realIntent.getComponent().getPackageName())
-                && "com.tencent.mm.plugin.base.stub.WXEntryActivity".equals(realIntent.getComponent().getClassName())
-                ){ //新微信
-            Wechat.invoke(realIntent,this);
-        }
-    }
-    private final void doRealShare(){ //取消：真的分享
-        startActivityForResult(realIntent,fakeIntent.getIntExtra(Constants.fromParam1,1),fakeIntent.getBundleExtra(Constants.fromParam2));
+        });
+        alertDialog.create().show();
     }
 }

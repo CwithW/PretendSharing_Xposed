@@ -8,4 +8,7 @@
     <string name="title">Pretend sharing</string>
     <string name="xposed_text">Pretend sharing using xposed</string>
     <string name="text">Do pretend share?</string>
+    <string name="name_message_extract">Message Extract (long press to copy)</string>
+    <string name="string_decoded">Base64 decoded:</string>
+    <string name="button_message_extract">Message Extract</string>
 </resources>
