@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">PretendSharing_Xposed</string>
+    <string name="not_enabled">This module hasn\'t been enabled in Xposed Installer!</string>
+    <string name="is_enabled">No settings required</string>
+    <string name="disable_error">Error while hiding the Activity</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="title">Pretend sharing</string>
+    <string name="xposed_text">Pretend sharing using xposed</string>
+    <string name="text">Do pretend share?</string>
+</resources>

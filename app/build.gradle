@@ -1,0 +1,31 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 26
+    buildToolsVersion "26.0.1"
+    defaultConfig {
+        applicationId "pub.chara.cwui.pretendsharing_xposed"
+        //startActivityForResult(Intent int Bundle)需要sdl>=16
+        minSdkVersion 16
+        targetSdkVersion 26
+//      通过这种方法可以在gradle里配置负数版本
+        versionCode 1-129
+        versionName "-128 alpha"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    provided 'de.robv.android.xposed:api:82'
+    testCompile 'junit:junit:4.12'
+}

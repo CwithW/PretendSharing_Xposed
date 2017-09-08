@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">假装分享Xposed版</string>
+    <string name="not_enabled">请在xposed安装器中启用这个辣鸡模块</string>
+    <string name="is_enabled">这么辣鸡的模块不需要设置</string>
+    <string name="disable_error">这个模块辣鸡到连自己的图标都隐藏不了</string>
+    <string name="yes">是</string>
+    <string name="no">确定</string>
+    <string name="title">假装分享</string>
+    <string name="xposed_text">假装分享的半xposed实现</string>
+    <string name="text">是否假装分享？</string>
+</resources>
