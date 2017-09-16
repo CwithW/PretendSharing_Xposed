@@ -8,16 +8,23 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar" android:excludeFromRecents="true" android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        android:theme="@android:style/Theme.DeviceDefault">
         <activity android:name=".FakeActivity" android:allowEmbedded="false" android:theme="@android:style/Theme.Translucent.NoTitleBar" android:excludeFromRecents="true" android:exported="true"/>
         <activity android:name=".MessageExtractActivity" android:label="@string/name_message_extract" android:theme="@android:style/Theme.DeviceDefault"/>
-
+        <activity android:name=".MainSettingsActivity" android:theme="@android:style/Theme.DeviceDefault" android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="de.robv.android.xposed.category.MODULE_SETTINGS" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".JumpActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar" android:exported="true">
+            <intent-filter>
+              <action android:name="android.intent.action.MAIN" />
+              <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".HelpActivity"/>
+        <activity android:name=".AppInfoActivity"/>
         <meta-data
             android:name="xposedmodule"
             android:value="true" />
@@ -32,7 +39,7 @@
 
         <meta-data
             android:name="xposedminversion"
-            android:value="82" />
+            android:value="53" />
     </application>
 
 </manifest>

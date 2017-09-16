@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/title_main">
+        <ListPreference
+            android:defaultValue="0"
+            android:entries="@array/XposedModes"
+            android:entryValues="@array/XposedModes_Values"
+            android:key="xposed_mode"
+            android:title="@string/label_xposed_mode" />
+        <EditTextPreference
+            android:key="package_settings"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/label_package_names"
+            android:summary="@string/summary_label_names"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/title_other">
+        <Preference
+            android:key="all_apps"
+            android:title="@string/label_all_apps" />
+        <Preference
+            android:key="show_help"
+            android:title="@string/label_show_help" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="disable_this"
+            android:title="@string/checkbox_disable_this"
+            android:summary="@string/summary_disable_this"/>
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="enable_debug"
+            android:title="@string/checkbox_enable_debug"
+            android:summary="@string/summary_enable_debug"/>
+        <Preference
+            android:key="version"
+            android:title="@string/label_version" />
+    </PreferenceCategory>
+</PreferenceScreen>

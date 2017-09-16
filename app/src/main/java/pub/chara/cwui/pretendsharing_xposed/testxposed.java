@@ -18,50 +18,39 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
  * Created by user on 2017/9/6.
  */
 
-//用来测试的xposed,release编译会drop掉这个
-//将这个类名加到assets/xposed_main里，可以在系统日志里看到每一个程序startActivity和startActivityForResult的Intent参数和setResult，便于调试
-//查看log方法：
-// adb shell
-//su                    #我用的华为rom必须su才能看到全部日志
-//logcat -c             #清除logcat缓存，非必需，有助于观看
-//logcat -s testtag:*
 
-    //正式编译之前记得从xposed_main里删掉引用
-
-public class testxposed implements IXposedHookLoadPackage {
-    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) throws Throwable {
-        if(loadPackageParam.appInfo != null && (loadPackageParam.appInfo.flags & ApplicationInfo.FLAG_SYSTEM) > 0 ) {// 如果是系统应用
-            //XposedBridge.log("Not hooking package for it's system app:"+ loadPackageParam.packageName );
-            return; //不操作
-        }
-
+//用来测试的类
+    //如果调试打开，会invoke这个类
+public class testxposed {
+    public static void invoke(XC_LoadPackage.LoadPackageParam loadPackageParam){
+        XposedBridge.log("PretendSharing_Xposed Debug: Hooking package :"+ loadPackageParam.packageName);
         //startActivity 0b
         //params: Intent Bundle
         XposedHelpers.findAndHookMethod("android.app.ContextImpl",loadPackageParam.classLoader,"startActivity", Intent.class,Bundle.class, new XC_MethodHook(){
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                 super.beforeHookedMethod(param);
-                Log.e(Constants.TAG,"startActivity from Context 0");
+                XposedBridge.log(Constants.TAG + ":" +"startActivity from Context 0");
                 Context thisActivity = (Context)param.thisObject; //这里的是Context
                 Intent thisTargetIntent = (Intent)param.args[0];
-                Log.e(Constants.TAG,"this package:"+thisActivity.getApplicationInfo().packageName);
-                //Log.e(Constants.TAG,"this ClassName:"+thisActivity.getComponentName().getClassName());
-                Log.e(Constants.TAG,"target Intent Action:"+thisTargetIntent.getAction());
+                XposedBridge.log(Constants.TAG + ":" +"this package:"+thisActivity.getApplicationInfo().packageName);
+                //XposedBridge.log(Constants.TAG + ":" +"this ClassName:"+thisActivity.getComponentName().getClassName());
+                XposedBridge.log(Constants.TAG + ":" +"target Intent Action:"+thisTargetIntent.getAction());
                 ComponentName tempi = thisTargetIntent.getComponent();
                 if(tempi!=null) {
-                    Log.e(Constants.TAG, "target Intent Package:" + thisTargetIntent.getComponent().getPackageName());
-                    Log.e(Constants.TAG, "target Intent ClassName:" + thisTargetIntent.getComponent().getClassName());
+                    XposedBridge.log(Constants.TAG + ":" + "target Intent Package:" + thisTargetIntent.getComponent().getPackageName());
+                    XposedBridge.log(Constants.TAG + ":" + "target Intent ClassName:" + thisTargetIntent.getComponent().getClassName());
                 }else {
-                    Log.e(Constants.TAG, "target Intent Package:" + "null");
-                    Log.e(Constants.TAG, "target Intent ClassName:" + "null");
+                    XposedBridge.log(Constants.TAG + ":" + "target Intent Package:" + "null");
+                    XposedBridge.log(Constants.TAG + ":" + "target Intent ClassName:" + "null");
                 }
                 if(thisTargetIntent.getDataString()!=null)
-                    Log.e(Constants.TAG,"target Intent Uri:"+thisTargetIntent.getDataString());
+                    XposedBridge.log(Constants.TAG + ":" +"target Intent Uri:"+thisTargetIntent.getDataString());
                 else
-                    Log.e(Constants.TAG,"target Intent Uri:"+"null");
-                Log.e(Constants.TAG,"target Intent bundle things:"+utils.toString(utils.goThroughBundleAsString(thisTargetIntent.getExtras())));
-                Log.e(Constants.TAG,"startActivity 0 END");
-                Log.e(Constants.TAG,"------");
+                    XposedBridge.log(Constants.TAG + ":" +"target Intent Uri:"+"null");
+                XposedBridge.log(Constants.TAG + ":" +"target Intent bundle things:"+utils.toString(utils.goThroughBundleAsString(thisTargetIntent.getExtras())));
+                XposedBridge.log(Constants.TAG + ":" +"startActivity 0 END");
+                XposedBridge.log(Constants.TAG + ":" +"------");
             }
         });
 
@@ -72,27 +61,27 @@ public class testxposed implements IXposedHookLoadPackage {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                 super.beforeHookedMethod(param);
-                Log.e(Constants.TAG,"startActivity A");
+                XposedBridge.log(Constants.TAG + ":" +"startActivity A");
                 Activity thisActivity = (Activity)param.thisObject;
                 Intent thisTargetIntent = (Intent)param.args[0];
-                Log.e(Constants.TAG,"this package:"+thisActivity.getApplicationInfo().packageName);
-                Log.e(Constants.TAG,"this ClassName:"+thisActivity.getComponentName().getClassName());
-                Log.e(Constants.TAG,"target Intent Action:"+thisTargetIntent.getAction());
+                XposedBridge.log(Constants.TAG + ":" +"this package:"+thisActivity.getApplicationInfo().packageName);
+                XposedBridge.log(Constants.TAG + ":" +"this ClassName:"+thisActivity.getComponentName().getClassName());
+                XposedBridge.log(Constants.TAG + ":" +"target Intent Action:"+thisTargetIntent.getAction());
                 ComponentName tempi = thisTargetIntent.getComponent();
                 if(tempi!=null) {
-                    Log.e(Constants.TAG, "target Intent Package:" + thisTargetIntent.getComponent().getPackageName());
-                    Log.e(Constants.TAG, "target Intent ClassName:" + thisTargetIntent.getComponent().getClassName());
+                    XposedBridge.log(Constants.TAG + ":" + "target Intent Package:" + thisTargetIntent.getComponent().getPackageName());
+                    XposedBridge.log(Constants.TAG + ":" + "target Intent ClassName:" + thisTargetIntent.getComponent().getClassName());
                 }else {
-                    Log.e(Constants.TAG, "target Intent Package:" + "null");
-                    Log.e(Constants.TAG, "target Intent ClassName:" + "null");
+                    XposedBridge.log(Constants.TAG + ":" + "target Intent Package:" + "null");
+                    XposedBridge.log(Constants.TAG + ":" + "target Intent ClassName:" + "null");
                 }
                 if(thisTargetIntent.getDataString()!=null)
-                    Log.e(Constants.TAG,"target Intent Uri:"+thisTargetIntent.getDataString());
+                    XposedBridge.log(Constants.TAG + ":" +"target Intent Uri:"+thisTargetIntent.getDataString());
                 else
-                    Log.e(Constants.TAG,"target Intent Uri:"+"null");
-                Log.e(Constants.TAG,"target Intent bundle things:"+utils.toString(utils.goThroughBundleAsString(thisTargetIntent.getExtras())));
-                Log.e(Constants.TAG,"startActivity A END");
-                Log.e(Constants.TAG,"------");
+                    XposedBridge.log(Constants.TAG + ":" +"target Intent Uri:"+"null");
+                XposedBridge.log(Constants.TAG + ":" +"target Intent bundle things:"+utils.toString(utils.goThroughBundleAsString(thisTargetIntent.getExtras())));
+                XposedBridge.log(Constants.TAG + ":" +"startActivity A END");
+                XposedBridge.log(Constants.TAG + ":" +"------");
             }
         });*/
         //startActivity B
@@ -101,27 +90,27 @@ public class testxposed implements IXposedHookLoadPackage {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                 super.beforeHookedMethod(param);
-                Log.e(Constants.TAG,"startActivity B");
+                XposedBridge.log(Constants.TAG + ":" +"startActivity from Activity B");
                 Activity thisActivity = (Activity)param.thisObject;
                 Intent thisTargetIntent = (Intent)param.args[0];
-                Log.e(Constants.TAG,"this package:"+thisActivity.getApplicationInfo().packageName);
-                Log.e(Constants.TAG,"this ClassName:"+thisActivity.getComponentName().getClassName());
-                Log.e(Constants.TAG,"target Intent Action:"+thisTargetIntent.getAction());
+                XposedBridge.log(Constants.TAG + ":" +"this package:"+thisActivity.getApplicationInfo().packageName);
+                XposedBridge.log(Constants.TAG + ":" +"this ClassName:"+thisActivity.getComponentName().getClassName());
+                XposedBridge.log(Constants.TAG + ":" +"target Intent Action:"+thisTargetIntent.getAction());
                 ComponentName tempi = thisTargetIntent.getComponent();
                 if(tempi!=null) {
-                    Log.e(Constants.TAG, "target Intent Package:" + thisTargetIntent.getComponent().getPackageName());
-                    Log.e(Constants.TAG, "target Intent ClassName:" + thisTargetIntent.getComponent().getClassName());
+                    XposedBridge.log(Constants.TAG + ":" + "target Intent Package:" + thisTargetIntent.getComponent().getPackageName());
+                    XposedBridge.log(Constants.TAG + ":" + "target Intent ClassName:" + thisTargetIntent.getComponent().getClassName());
                 }else {
-                    Log.e(Constants.TAG, "target Intent Package:" + "null");
-                    Log.e(Constants.TAG, "target Intent ClassName:" + "null");
+                    XposedBridge.log(Constants.TAG + ":" + "target Intent Package:" + "null");
+                    XposedBridge.log(Constants.TAG + ":" + "target Intent ClassName:" + "null");
                 }
                 if(thisTargetIntent.getDataString()!=null)
-                    Log.e(Constants.TAG,"target Intent Uri:"+thisTargetIntent.getDataString());
+                    XposedBridge.log(Constants.TAG + ":" +"target Intent Uri:"+thisTargetIntent.getDataString());
                 else
-                    Log.e(Constants.TAG,"target Intent Uri:"+"null");
-                Log.e(Constants.TAG,"target Intent bundle things:"+utils.toString(utils.goThroughBundleAsString(thisTargetIntent.getExtras())));
-                Log.e(Constants.TAG,"startActivity B END");
-                Log.e(Constants.TAG,"------");
+                    XposedBridge.log(Constants.TAG + ":" +"target Intent Uri:"+"null");
+                XposedBridge.log(Constants.TAG + ":" +"target Intent bundle things:"+utils.toString(utils.goThroughBundleAsString(thisTargetIntent.getExtras())));
+                XposedBridge.log(Constants.TAG + ":" +"startActivity B END");
+                XposedBridge.log(Constants.TAG + ":" +"------");
             }
         });
         //startActivityForResult B
@@ -130,28 +119,28 @@ public class testxposed implements IXposedHookLoadPackage {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                 super.beforeHookedMethod(param);
-                Log.e(Constants.TAG,"startActivityForResult B");
+                XposedBridge.log(Constants.TAG + ":" +"startActivityForResult from Activity B");
                 Activity thisActivity = (Activity)param.thisObject;
                 Intent thisTargetIntent = (Intent)param.args[0];
-                Log.e(Constants.TAG,"this package:"+thisActivity.getApplicationInfo().packageName);
-                Log.e(Constants.TAG,"this ClassName:"+thisActivity.getComponentName().getClassName());
-                Log.e(Constants.TAG, "request code2:"+String.valueOf(param.args[1]));
-                Log.e(Constants.TAG,"target Intent Action:"+thisTargetIntent.getAction());
+                XposedBridge.log(Constants.TAG + ":" +"this package:"+thisActivity.getApplicationInfo().packageName);
+                XposedBridge.log(Constants.TAG + ":" +"this ClassName:"+thisActivity.getComponentName().getClassName());
+                XposedBridge.log(Constants.TAG + ":" + "request code2:"+String.valueOf(param.args[1]));
+                XposedBridge.log(Constants.TAG + ":" +"target Intent Action:"+thisTargetIntent.getAction());
                 ComponentName tempi = thisTargetIntent.getComponent();
                 if(tempi!=null) {
-                    Log.e(Constants.TAG, "target Intent Package:" + thisTargetIntent.getComponent().getPackageName());
-                    Log.e(Constants.TAG, "target Intent ClassName:" + thisTargetIntent.getComponent().getClassName());
+                    XposedBridge.log(Constants.TAG + ":" + "target Intent Package:" + thisTargetIntent.getComponent().getPackageName());
+                    XposedBridge.log(Constants.TAG + ":" + "target Intent ClassName:" + thisTargetIntent.getComponent().getClassName());
                 }else {
-                    Log.e(Constants.TAG, "target Intent Package:" + "null");
-                    Log.e(Constants.TAG, "target Intent ClassName:" + "null");
+                    XposedBridge.log(Constants.TAG + ":" + "target Intent Package:" + "null");
+                    XposedBridge.log(Constants.TAG + ":" + "target Intent ClassName:" + "null");
                 }
                 if(thisTargetIntent.getDataString()!=null)
-                    Log.e(Constants.TAG,"target Intent Uri:"+thisTargetIntent.getDataString());
+                    XposedBridge.log(Constants.TAG + ":" +"target Intent Uri:"+thisTargetIntent.getDataString());
                 else
-                    Log.e(Constants.TAG,"target Intent Uri:"+"null");
-                Log.e(Constants.TAG,"target Intent bundle things:"+utils.toString(utils.goThroughBundleAsString(thisTargetIntent.getExtras())));
-                Log.e(Constants.TAG,"startActivityForResult B END");
-                Log.e(Constants.TAG,"------");
+                    XposedBridge.log(Constants.TAG + ":" +"target Intent Uri:"+"null");
+                XposedBridge.log(Constants.TAG + ":" +"target Intent bundle things:"+utils.toString(utils.goThroughBundleAsString(thisTargetIntent.getExtras())));
+                XposedBridge.log(Constants.TAG + ":" +"startActivityForResult B END");
+                XposedBridge.log(Constants.TAG + ":" +"------");
             }
         });
         //setResult A
@@ -160,19 +149,19 @@ public class testxposed implements IXposedHookLoadPackage {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                 super.beforeHookedMethod(param);
-                Log.e(Constants.TAG,"setResult A");
+                XposedBridge.log(Constants.TAG + ":" +"setResult A");
                 Activity thisActivity = (Activity)param.thisObject;
-                Log.e(Constants.TAG,"this package:"+thisActivity.getApplicationInfo().packageName);
-                Log.e(Constants.TAG,"this ClassName:"+thisActivity.getApplicationInfo().className);
-                Log.e(Constants.TAG,"this calling package:"+thisActivity.getCallingPackage());
+                XposedBridge.log(Constants.TAG + ":" +"this package:"+thisActivity.getApplicationInfo().packageName);
+                XposedBridge.log(Constants.TAG + ":" +"this ClassName:"+thisActivity.getApplicationInfo().className);
+                XposedBridge.log(Constants.TAG + ":" +"this calling package:"+thisActivity.getCallingPackage());
                 ComponentName tempi = thisActivity.getCallingActivity();
                 if(tempi!=null)
-                    Log.e(Constants.TAG,"this calling Activity:"+thisActivity.getCallingActivity().getClassName());
+                    XposedBridge.log(Constants.TAG + ":" +"this calling Activity:"+thisActivity.getCallingActivity().getClassName());
                 else
-                    Log.e(Constants.TAG,"this calling Activity:"+"null");
-                Log.e(Constants.TAG, "response code1:"+String.valueOf(param.args[0]));
-                Log.e(Constants.TAG,"setResult A END");
-                Log.e(Constants.TAG,"------");
+                    XposedBridge.log(Constants.TAG + ":" +"this calling Activity:"+"null");
+                XposedBridge.log(Constants.TAG + ":" + "response code1:"+String.valueOf(param.args[0]));
+                XposedBridge.log(Constants.TAG + ":" +"setResult A END");
+                XposedBridge.log(Constants.TAG + ":" +"------");
             }
         });
         //setResult B
@@ -181,25 +170,25 @@ public class testxposed implements IXposedHookLoadPackage {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                 super.beforeHookedMethod(param);
-                Log.e(Constants.TAG,"setResult B");
+                XposedBridge.log(Constants.TAG + ":" +"setResult B");
                 Activity thisActivity = (Activity)param.thisObject;
-                Log.e(Constants.TAG,"this package:"+thisActivity.getApplicationInfo().packageName);
-                Log.e(Constants.TAG,"this ClassName:"+thisActivity.getApplicationInfo().className);
-                Log.e(Constants.TAG,"this calling package:"+thisActivity.getCallingPackage());
+                XposedBridge.log(Constants.TAG + ":" +"this package:"+thisActivity.getApplicationInfo().packageName);
+                XposedBridge.log(Constants.TAG + ":" +"this ClassName:"+thisActivity.getApplicationInfo().className);
+                XposedBridge.log(Constants.TAG + ":" +"this calling package:"+thisActivity.getCallingPackage());
                 ComponentName tempi = thisActivity.getCallingActivity();
                 if(tempi!=null)
-                    Log.e(Constants.TAG,"this calling Activity:"+thisActivity.getCallingActivity().getClassName());
+                    XposedBridge.log(Constants.TAG + ":" +"this calling Activity:"+thisActivity.getCallingActivity().getClassName());
                 else
-                    Log.e(Constants.TAG,"this calling Activity:"+"null");
+                    XposedBridge.log(Constants.TAG + ":" +"this calling Activity:"+"null");
                 Intent thisIntent = (Intent)param.args[1];
-                Log.e(Constants.TAG, "response code2:"+String.valueOf(param.args[0]));
+                XposedBridge.log(Constants.TAG + ":" + "response code2:"+String.valueOf(param.args[0]));
                 Bundle thisIntentBundle = thisIntent.getExtras();
                 if(thisIntentBundle != null)
-                    Log.e(Constants.TAG,"bundle things:"+ utils.toString(utils.goThroughBundleAsString(thisIntentBundle)));
+                    XposedBridge.log(Constants.TAG + ":" +"bundle things:"+ utils.toString(utils.goThroughBundleAsString(thisIntentBundle)));
 
                 //Log.e("testtag", "response2 Intent bundle:"+thisIntent.getExtras().keySet());
-                Log.e(Constants.TAG,"setResult B END");
-                Log.e(Constants.TAG,"------");
+                XposedBridge.log(Constants.TAG + ":" +"setResult B END");
+                XposedBridge.log(Constants.TAG + ":" +"------");
             }
         });
     }
@@ -208,8 +197,8 @@ public class testxposed implements IXposedHookLoadPackage {
         @Override
         protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
             super.beforeHookedMethod(param);
-            Log.e(Constants.TAG,"successfully hooked function" + param.method.getName());
-            Log.e(Constants.TAG,"All params:"+ utils.toString(param.args));
+            XposedBridge.log(Constants.TAG + ":" +"successfully hooked function" + param.method.getName());
+            XposedBridge.log(Constants.TAG + ":" +"All params:"+ utils.toString(param.args));
         }
     }
     

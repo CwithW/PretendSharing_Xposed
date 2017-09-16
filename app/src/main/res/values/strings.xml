@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PretendSharing_Xposed</string>
+    <string name="app_name">PsvX</string>
     <string name="not_enabled">This module hasn\'t been enabled in Xposed Installer!</string>
     <string name="is_enabled">No settings required</string>
     <string name="disable_error">Error while hiding the Activity</string>
@@ -11,4 +11,26 @@
     <string name="name_message_extract">Message Extract (long press to copy)</string>
     <string name="string_decoded">Base64 decoded:</string>
     <string name="button_message_extract">Message Extract</string>
+    <string name="title_main">Main</string>
+    <string name="xposed_mode_0">0-Global</string>
+    <string name="xposed_mode_1">1-Whitelist</string>
+    <string name="xposed_mode_2">2-Blacklist</string>
+    <string name="xposed_mode_m1">-1-Disabled</string>
+    <string name="title_other">Other</string>
+    <string name="label_all_apps">All apps</string>
+    <string name="label_show_help">Show help file</string>
+    <string name="checkbox_disable_this">Hide launcher icon</string>
+    <string name="summary_disable_this">Enter this settings from Xposed Installer</string>
+    <string name="checkbox_disable_legacy">Disable legacy qq and general sharing</string>
+    <string name="checkbox_enable_debug">Enable debug log</string>
+    <string name="summary_enable_debug">See help file for details</string>
+    <string name="label_xposed_mode">Xposed mode</string>
+    <string name="label_package_names">Package names</string>
+    <string name="summary_label_names">Split with ,</string>
+    <string name="help">Pretend sharing via Xposed(PsvX)\nXposed modes:\n0-Global: ALWAYS* active regardless of package names settings.\n1-Whitelist: ONLY* active for packages that are written in package names settings.\n2-Blacklist: ONLY* disactive for packages that are written in package names settings.\n-1-Disabled: ALWAYS* disactive. You can also deselect this Module in Xposed Installer.\n\n*Note: A restart to opened apps are required, and if you don\'t know how to do that, restart your phone. System Apps and some apps are always disabled for security reasons.\n\nPackage names settings:\nYou can enter the full package name(eg. com.tencent.tmgp.sgame) or just a part of it(eg. tencent).\nMultiple package names are separated via , .(eg. tencent,baidu)\n\nDebug:\nEnabling the debug** will cause this module to output ALL startActivity and startActivityForResult(Context,Activity) in Xposed log.\nThis will cause delays and a huge amount of Xposed logs, so dont enable it when you dont need it.\n\n**A restart to opened apps are required, and if you don\'t know how to do that, restart your phone. System apps are immune to debug. Xposed mode settings is effective to debug.\n\nThis module is open-sourced. The source can be seen at https://github.com/CwithW/PretendSharing_Xposed\n\nOpen source project Acknowledgments:\nXposed\nrepo.xposed.info\nXposedAppSettings\nhttps://github.com/rovo89/XposedAppSettings\nThe AOSP Project\ndeveloper.android.com\n</string>
+    <string name="startActivity_error">Error while starting Activity</string>
+    <string name="name_message_edit">Message Edit</string>
+    <string name="not_feautred">Not feautred</string>
+    <string name="msg_cp_success">Copied</string>
+    <string name="label_version">Version</string>
 </resources>

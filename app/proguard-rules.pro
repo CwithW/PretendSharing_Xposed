@@ -27,7 +27,7 @@
 -keep class pub.chara.cwui.pretendsharing_xposed.xposed
 -keep class pub.chara.cwui.pretendsharing_xposed.utils
 #否则检测xposed的函数会被r掉
--keepclassmembers class pub.chara.cwui.pretendsharing_xposed.MainActivity {
+-keepclassmembers class pub.chara.cwui.pretendsharing_xposed.MainSettingsActivity {
     boolean isXposedEnabled();
 }
 #检测函数

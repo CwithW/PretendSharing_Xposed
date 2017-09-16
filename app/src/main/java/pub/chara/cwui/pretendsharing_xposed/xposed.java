@@ -12,10 +12,12 @@ import android.util.Log;
 import android.widget.Toast;
 
 import java.lang.reflect.Method;
+import java.util.regex.Pattern;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
+import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
@@ -41,15 +43,59 @@ public class xposed implements IXposedHookLoadPackage {
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) throws Throwable {
         if(Constants.ThisPackageName.equals(loadPackageParam.packageName)) {
-            XposedHelpers.findAndHookMethod("pub.chara.cwui.pretendsharing_xposed.MainActivity", loadPackageParam.classLoader, "isXposedEnabled", XC_MethodReplacement.returnConstant(true));
+            XposedHelpers.findAndHookMethod("pub.chara.cwui.pretendsharing_xposed.MainSettingsActivity", loadPackageParam.classLoader, "isXposedEnabled", XC_MethodReplacement.returnConstant(true));
             return; //不进一步操作
         }
         if(loadPackageParam.appInfo != null && (loadPackageParam.appInfo.flags & ApplicationInfo.FLAG_SYSTEM) > 0 ) {// 如果是系统应用
             //XposedBridge.log("Not hooking package for it's system app:"+ loadPackageParam.packageName );
             return; //不操作，防止出现hook系统应用导致莫名其妙崩溃然后用户找上门的情况
+            //另外，系统程序读XSharePreferences有奇怪的读不到问题
         }//否则
+        XSharedPreferences pref;
+        pref = new XSharedPreferences(Constants.ThisPackageName,"xposed");
+        pref.reload();
+
+        /*XposedBridge.log(loadPackageParam.packageName);
+        XposedBridge.log(pref.getString("xposed_mode","0"));
+        XposedBridge.log(pref.getString("package_settings",""));
+        XposedBridge.log(String.valueOf(pref.getBoolean("enable_debug",false)));*/
+
+        switch(pref.getString("xposed_mode","0")){
+            case "0":
+            default: //如果有人乱改
+                break; //不需要改
+            case "1": { //白名单
+                String[] tempStrs = pref.getString("package_settings","").split(",");
+                boolean temp = false; //break只能跳出单层循环
+                for(String str:tempStrs){
+                    if(str.trim().equals(""))
+                        continue;//跳过空值
+                    if(loadPackageParam.packageName.contains(str)) {
+                        temp = true;
+                        break;
+                    }
+                }
+                if(!temp)
+                    return; //没找到
+                break;
+            }
+            case "2":{ //黑名单
+                String[] tempStrs = pref.getString("package_settings","").split(",");
+                for(String str:tempStrs){
+                    if(str.trim().equals(""))
+                        continue;//跳过空值
+                    if(loadPackageParam.packageName.contains(str))
+                        return;
+                }
+                break; //没找到
+            }
+            case "-1":
+                return; //禁用，不操作
+        }
+        if(pref.getBoolean("enable_debug",false)) //调试
+            testxposed.invoke(loadPackageParam);
         for(String packgeName: DisabledPackgeNames) {//遍历数组
-            if (loadPackageParam.packageName.equals(packgeName)) { //如果是被禁用的包名
+            if (loadPackageParam.packageName.equals(packgeName)) { //如果是被内置禁用的包名
                 //XposedBridge.log("Not hooking package for it's disabled app:"+ loadPackageParam.packageName );
                 return; //不操作
             }

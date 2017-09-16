@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">假装分享Xposed版</string>
+    <string name="app_name">假装分享Xposed</string>
     <string name="not_enabled">请在xposed安装器中启用这个辣鸡模块</string>
     <string name="is_enabled">这么辣鸡的模块不需要设置\n如需卸载模块，请在xposed安装器里长按或去系统设置-应用管理</string>
     <string name="disable_error">这个模块辣鸡到连自己的图标都隐藏不了</string>
@@ -12,4 +12,26 @@
     <string name="name_message_extract">信息提取（长按复制）</string>
     <string name="string_decoded">以Base64解码：</string>
     <string name="button_message_extract">信息提取</string>
+    <string name="title_main">主要的</string>
+    <string name="xposed_mode_0">0-全球</string>
+    <string name="xposed_mode_1">1-白名单</string>
+    <string name="xposed_mode_2">2-黑名单</string>
+    <string name="title_other">其他的</string>
+    <string name="label_all_apps">应用包名查看</string>
+    <string name="label_show_help">查看帮助文件</string>
+    <string name="checkbox_disable_this">隐藏发射器图标</string>
+    <string name="summary_disable_this">从Xposed安装程序进入设置</string>
+    <string name="checkbox_disable_legacy">禁用非Xposed的两个分享功能</string>
+    <string name="checkbox_enable_debug">启用调试日志</string>
+    <string name="summary_enable_debug">详情请参阅帮助文件</string>
+    <string name="label_xposed_mode">Xposed的模式</string>
+    <string name="xposed_mode_m1">-1-禁用的</string>
+    <string name="label_package_names">包的名字</string>
+    <string name="summary_label_names">以小写半角逗号,分隔不同包名</string>
+    <string name="help">假装分享的Xposed实现(假装分享Xposed)\nXposed模式说明：\n0-全局：对所有包启用*\n1-白名单：只对填写在包名列表的包启用*\n2-黑名单：只对填写在包名列表的包禁用*\n-1-禁用：对所有包禁用*，等同于Xposed安装器内反勾选\n\n*注：需要重启app才会有效。如果你不会的话，重启手机。系统程序和部分程序由于安全问题总是被禁用的。\n\n包名设置说明：\n可以填写完整包名（如com.tencent.tmgp.sgame），也可以填写部分包名（如tencent）。\n多个包名使用半角逗号,分隔。（如tencent,baidu）\n\n调试说明：\n启用调试**会使得本模块向Xposed日志输出所有的活动项启动事件。\n这会造成启动活动项时的延迟和巨大的Xposed日志，所以在不需要的时候请勿启动。\n\n**需要重启app才会有效。如果你不会的话，重启手机。系统程序不受调试影响。上面的Xposed模式对调试有效。\n\n本apk开源，源码可在https://github.com/CwithW/PretendSharing_Xposed查看\n\n开源项目致谢：\n请参考英文版帮助页面</string>
+    <string name="startActivity_error">这个模块辣鸡到打不开指定的页面</string>
+    <string name="name_message_edit">消息编辑</string>
+    <string name="not_feautred">尚未实现</string>
+    <string name="msg_cp_success">已复制</string>
+    <string name="label_version">当前版本</string>
 </resources>

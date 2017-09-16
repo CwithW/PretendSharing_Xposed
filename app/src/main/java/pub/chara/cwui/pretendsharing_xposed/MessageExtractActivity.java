@@ -5,7 +5,10 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Base64;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Set;
 
@@ -27,7 +30,22 @@ public class MessageExtractActivity extends Activity {
             this.finish();
         textView = findViewById(R.id.textView);
         parseRealIntent();
+
+
     }
+    //菜单键
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        menu.add(R.string.name_message_edit);
+        return true;
+    }
+
+    @Override
+    public boolean onMenuItemSelected(int featureId, MenuItem item) {
+        Toast.makeText(this, R.string.not_feautred, Toast.LENGTH_SHORT).show();
+        return true;
+    }
+
     private void parseRealIntent(){
         String tempUriStr = realIntent.getDataString();
         if(tempUriStr != null && tempUriStr.startsWith("mqqapi://")) { //qq的参数是base64加密的
