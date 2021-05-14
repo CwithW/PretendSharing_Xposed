@@ -1,2 +1,2 @@
 # PretendSharing_Xposed
-Pretend sharing using xposed
+this project has been discontinued.
